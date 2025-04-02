@@ -6,8 +6,7 @@ abstract class HomeScreenController {
 
   Future<void> addIconPressed();
   Future<void> exitPressed();
-  Future<void> refresh();
   Future<List<Reference>> getFilesSimpleData();
-  Future<FullMetadata> getFileMetadata({required String ref});
-  ValueNotifier<int> get itemCountNotifier;
+  ValueNotifier<String?> get searchNotifier;
+  void searchOnChanged(String? str);
 }

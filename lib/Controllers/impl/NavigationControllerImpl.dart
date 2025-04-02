@@ -28,7 +28,7 @@ class NavigationControllerImpl implements NavigationController {
 
   @override
   Future<void> goToSignUp() async {
-    navigationService.pushNamed(
+    await navigationService.pushNamed(
       route: NamedRoutes.register,
       transition: PageTransitionType.leftToRight,
     );
@@ -36,11 +36,19 @@ class NavigationControllerImpl implements NavigationController {
 
   @override
   Future<void> goToHome() async {
-    navigationService.popAllAndPushNamed(route: NamedRoutes.home);
+    await navigationService.popAllAndPushNamed(route: NamedRoutes.home);
   }
 
   @override
   Future<void> goToAuth() async {
-    navigationService.popAllAndPushNamed(route: NamedRoutes.auth);
+    await navigationService.popAllAndPushNamed(route: NamedRoutes.auth);
+  }
+
+  @override
+  Future<void> goToPhoneLogin() async {
+    await navigationService.pushNamed(
+      route: NamedRoutes.loginWithPhone,
+      transition: PageTransitionType.rightToLeft,
+    );
   }
 }

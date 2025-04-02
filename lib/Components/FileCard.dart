@@ -5,11 +5,15 @@ class FileCard extends StatelessWidget {
   final String name;
   final String date;
   final String size;
+  final IconData? icon;
+  final void Function()? onMenuPressed;
   const FileCard({
     super.key,
     required this.name,
     required this.date,
     required this.size,
+    this.icon,
+    this.onMenuPressed,
   });
 
   @override
@@ -22,7 +26,7 @@ class FileCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,11 +38,17 @@ class FileCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Icon(
-                      Icons.insert_drive_file_outlined,
+                      icon ?? Icons.insert_drive_file_outlined,
                       color: AppColors.primary,
                       size: 36,
                     ),
-                    Icon(Icons.more_vert_rounded, color: AppColors.primary),
+                    IconButton(
+                      onPressed: onMenuPressed,
+                      icon: Icon(
+                        Icons.more_vert_rounded,
+                        color: AppColors.primary,
+                      ),
+                    ),
                   ],
                 ),
                 Text(

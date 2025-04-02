@@ -5,6 +5,7 @@ import 'package:nimbus/NamedRoutes.dart';
 import 'package:nimbus/Screens/AuthCodeScreen.dart';
 import 'package:nimbus/Screens/HomeScreen.dart';
 import 'package:nimbus/Screens/LoginScreen.dart';
+import 'package:nimbus/Screens/LoginWithPhoneScreen.dart';
 import 'package:nimbus/Screens/OnboardingScreen.dart';
 import 'package:nimbus/Screens/ProfileScreen.dart';
 import 'package:nimbus/Screens/SettingsScreen.dart';
@@ -19,6 +20,8 @@ class RouteHandler {
         (context) => AutoLogin(child: OnboardingScreen()), // AutoLogin
     NamedRoutes.login:
         (context) => AutoLogin(child: LoginScreen()), // AutoLogin
+    NamedRoutes.loginWithPhone:
+        (context) => AutoLogin(child: LoginWithPhoneScreen()), // AutoLogin
     NamedRoutes.register:
         (context) => AutoLogin(child: SignUpScreen()), // AutoLogin
     NamedRoutes.home:

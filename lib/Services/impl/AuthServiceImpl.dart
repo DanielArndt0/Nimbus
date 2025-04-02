@@ -145,18 +145,19 @@ class AuthServiceImpl implements AuthService {
 
   @override
   Future<void> signUpWithPhone({required String phone}) async {
-    // await authProvider.auth.verifyPhoneNumber(
-    //   verificationCompleted: (phoneAuthCredential) async {
-    //     await authProvider.auth.signInWithCredential(phoneAuthCredential);
-    //   },
-    //   verificationFailed: (error) {
-    //     throw AuthException(
-    //       message: error.message ?? 'Auth Exception',
-    //       code: error.code,
-    //     );
-    //   },
-    //   codeSent: (verificationId, forceResendingToken) {},
-    //   codeAutoRetrievalTimeout: (verificationId) {},
-    // );
+    await authProvider.auth.verifyPhoneNumber(
+      verificationCompleted: (phoneAuthCredential) async {
+        await authProvider.auth.signInWithCredential(phoneAuthCredential);
+      },
+      verificationFailed: (error) {
+        throw AuthException(
+          message: error.message ?? 'Auth Exception',
+          code: error.code,
+        );
+      },
+      codeSent: (verificationId, forceResendingToken) async {
+      },
+      codeAutoRetrievalTimeout: (verificationId) {},
+    );
   }
 }

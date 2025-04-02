@@ -21,19 +21,13 @@ class HomeScreenControllerImpl implements HomeScreenController {
   final LogService logService;
   final StorageService storageService;
   final TextEditingController _searchController = TextEditingController();
-  final _itemCount = ValueNotifier<int>(0);
+  final _searchNotifier = ValueNotifier<String?>('');
 
   @override
   TextEditingController get searchController => _searchController;
 
   @override
-  Future<void> refresh() async {
-    // Pode lançar UserLogoutException
-    final count = await storageService.getFileCount(
-      userId: authService.user.uid,
-    );
-    _itemCount.value = count;
-  }
+  ValueNotifier<String?> get searchNotifier => _searchNotifier;
 
   @override
   Future<void> addIconPressed() async {
@@ -44,7 +38,6 @@ class HomeScreenControllerImpl implements HomeScreenController {
         userId: authService.user.uid, // Pode lançar UserLogoutException
         files: result.files,
       );
-      await refresh();
     }
   }
 
@@ -54,9 +47,6 @@ class HomeScreenControllerImpl implements HomeScreenController {
   }
 
   @override
-  ValueNotifier<int> get itemCountNotifier => _itemCount;
-
-  @override
   Future<List<Reference>> getFilesSimpleData() async {
     return storageService.getFilesSimpleReferences(
       userId: authService.user.uid,
@@ -64,7 +54,7 @@ class HomeScreenControllerImpl implements HomeScreenController {
   }
 
   @override
-  Future<FullMetadata> getFileMetadata({required String ref}) async {
-    return storageService.getMetadata(userId: authService.user.uid, ref: ref);
+  void searchOnChanged(String? str) {
+    _searchNotifier.value = str;
   }
 }

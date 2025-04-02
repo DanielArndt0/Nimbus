@@ -8,4 +8,5 @@ class NamedRoutes {
   static const profile = '${pre}profile';
   static const settings = '${pre}settings';
   static const auth = '${pre}auth';
+  static const loginWithPhone = '${pre}phonelogin';
 }

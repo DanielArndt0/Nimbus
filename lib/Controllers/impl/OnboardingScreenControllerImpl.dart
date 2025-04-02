@@ -14,6 +14,11 @@ class OnboardingScreenControllerImpl implements OnboardingScreenController {
 
   @override
   Future<void> signInPressed() async {
-    navigationController.goToLogin();
+    await navigationController.goToLogin();
+  }
+
+  @override
+  Future<void> signInWithPhone() async {
+    await navigationController.goToPhoneLogin();
   }
 }

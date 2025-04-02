@@ -1,8 +1,6 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:nimbus/App/AppColors.dart';
 import 'package:nimbus/Components/AppFormTextField.dart';
-import 'package:nimbus/Controllers/FileCard.dart';
 import 'package:nimbus/Controllers/HomeScreenController.dart';
 import 'package:nimbus/Utils/Format.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> with Format {
   @override
   void initState() {
     _controller = context.read<HomeScreenController>();
-    _controller.refresh();
+
     super.initState();
   }
 
@@ -48,9 +46,7 @@ class _HomeScreenState extends State<HomeScreen> with Format {
         child: Column(
           children: [
             AppFormTextField(
-              onChanged: (p0) {
-                setState(() {});
-              },
+              onChanged: _controller.searchOnChanged,
               controller: _controller.searchController,
               prefixIcon: Icon(Icons.search_rounded),
               label: 'Search File',
@@ -61,83 +57,27 @@ class _HomeScreenState extends State<HomeScreen> with Format {
               children: [
                 Row(
                   children: [
-                    Text('Recent'),
+                    Text(
+                      'Your Files',
+                      style: TextStyle(
+                        color: AppColors.fontColor,
+                        fontSize: 16,
+                      ),
+                    ),
                     SizedBox(width: 10),
                     Icon(Icons.keyboard_arrow_down_rounded),
                   ],
                 ),
-                IconButton(
-                  onPressed: _controller.addIconPressed,
-                  icon: Icon(Icons.add),
-                ),
               ],
-            ),
-            FutureBuilder(
-              future: _controller.getFilesSimpleData(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  Text('No data');
-                }
-
-                if (snapshot.data == null) {
-                  Text('No data');
-                }
-
-                final filesRef = snapshot.data!;
-                final filteredFiles =
-                    filesRef.where((reference) {
-                      return reference.name.toLowerCase().contains(
-                        _controller.searchController.text.toLowerCase(),
-                      );
-                    }).toList();
-
-                return Expanded(
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                    ),
-                    itemCount: filteredFiles.length,
-                    itemBuilder: (context, index) {
-                      final file = filteredFiles[index];
-
-                      return FutureBuilder(
-                        future: _controller.getFileMetadata(ref: file.name),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return SizedBox(
-                              height: 10,
-                              width: 10,
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-
-                          if (!snapshot.hasData) {
-                            Text('No data');
-                          }
-
-                          if (snapshot.data == null) {
-                            Text('No data');
-                          }
-
-                          final metadata = snapshot.data!;
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: FileCard(
-                              name: metadata.name,
-                              date: formatDate(metadata.updated!),
-                              size: formatBytes(metadata.size!),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                );
-              },
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        shape: CircleBorder(),
+        backgroundColor: AppColors.primary,
+        child: Icon(Icons.add, color: Colors.white),
       ),
     );
   }

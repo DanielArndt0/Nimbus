@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nimbus/App/AppColors.dart';
 import 'package:nimbus/Components/BlueButton.dart';
+import 'package:nimbus/Components/OrDivider.dart';
+import 'package:nimbus/Components/OutlinedButton.dart';
 import 'package:nimbus/Controllers/OnboardingScreenController.dart';
 import 'package:provider/provider.dart';
 
@@ -63,13 +65,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   style: TextStyle(color: AppColors.subtext, fontSize: 13),
                 ),
                 const SizedBox(height: 30),
-      
+
                 Row(
                   children: [
                     Expanded(
                       child: BlueButton(
                         onPressed: _controller.signInPressed,
                         label: 'Sign In',
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [OrDivider()],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppOutlinedButton(
+                        onPressed: _controller.signInWithPhone,
+                        label: 'Sign in with phone',
                       ),
                     ),
                   ],
