@@ -11,6 +11,12 @@ class NavigationServiceImpl implements NavigationService {
   late GlobalKey<NavigatorState> navigator;
 
   @override
+  late GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey;
+
+  @override
+  BuildContext? get context => navigator.currentContext;
+
+  @override
   Future<void> pushNamed<T>({
     required String route,
     PageTransitionType? transition,
@@ -44,11 +50,11 @@ class NavigationServiceImpl implements NavigationService {
 
   @override
   void showSnackbar({required String text}) {
-    ScaffoldMessenger.of(
-      navigator.currentContext!,
-    ).showSnackBar(SnackBar(content: Text(text)));
+    scaffoldMessengerKey.currentState!.showSnackBar(
+      SnackBar(content: Text(text)),
+    );
+    // ScaffoldMessenger.of(
+    //   navigator.currentContext!,
+    // ).showSnackBar(SnackBar(content: Text(text)));
   }
-
-  @override
-  BuildContext? get context => navigator.currentContext;
 }

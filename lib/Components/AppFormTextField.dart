@@ -32,6 +32,7 @@ class AppFormTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: 1,
       validator: validator,
       readOnly: isReadonly,
       keyboardType: keyboardType,
@@ -50,6 +51,7 @@ class AppFormTextField extends StatelessWidget {
       decoration: InputDecoration(
         prefixIconColor: AppColors.primary,
         hintText: hint,
+        hintMaxLines: 1,
         hintStyle: TextStyle(color: AppColors.subtext),
         label: Text(label ?? ''),
         labelStyle: TextStyle(color: AppColors.subtext),

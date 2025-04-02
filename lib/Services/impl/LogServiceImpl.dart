@@ -19,7 +19,7 @@ class LogServiceImpl implements LogService {
 
   @override
   error({required message, Object? error, StackTrace? stackTrace}) {
-    _logger.d(
+    _logger.e(
       message,
       time: DateTime.now(),
       error: error,

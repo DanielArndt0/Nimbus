@@ -11,4 +11,9 @@ class OnboardingScreenControllerImpl implements OnboardingScreenController {
 
   @override
   Future<void> signInWithGoogle() async {}
+
+  @override
+  Future<void> signInPressed() async {
+    navigationController.goToLogin();
+  }
 }

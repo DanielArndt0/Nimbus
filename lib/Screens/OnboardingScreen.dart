@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nimbus/App/AppColors.dart';
 import 'package:nimbus/Components/BlueButton.dart';
 import 'package:nimbus/Controllers/OnboardingScreenController.dart';
-import 'package:nimbus/Controllers/SignInModalController.dart';
-import 'package:nimbus/Modals/SignInModal.dart';
 import 'package:provider/provider.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -14,13 +12,11 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  late final OnboardingScreenController _onboardingController;
-  late final SignInModalController _signInModalController;
+  late final OnboardingScreenController _controller;
 
   @override
   void initState() {
-    _onboardingController = context.read<OnboardingScreenController>();
-    _signInModalController = context.read<SignInModalController>();
+    _controller = context.read<OnboardingScreenController>();
 
     super.initState();
   }
@@ -67,23 +63,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   style: TextStyle(color: AppColors.subtext, fontSize: 13),
                 ),
                 const SizedBox(height: 30),
-
+      
                 Row(
                   children: [
                     Expanded(
                       child: BlueButton(
-                        onPressed: () {
-                          showModalBottomSheet(
-                            isScrollControlled: true,
-                            enableDrag: true,
-                            isDismissible: true,
-                            context: context,
-                            builder:
-                                (context) => SignInModal(
-                                  controller: _signInModalController,
-                                ),
-                          );
-                        },
+                        onPressed: _controller.signInPressed,
                         label: 'Sign In',
                       ),
                     ),
@@ -103,11 +88,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     IconButton(
-                      onPressed: _onboardingController.signInWithGoogle,
+                      onPressed: _controller.signInWithGoogle,
                       icon: Image.asset('assets/images/instagram.png'),
                     ),
                     IconButton(
-                      onPressed: _onboardingController.signInWithFacebook,
+                      onPressed: _controller.signInWithFacebook,
                       icon: Image.asset('assets/images/facebook.png'),
                     ),
                   ],

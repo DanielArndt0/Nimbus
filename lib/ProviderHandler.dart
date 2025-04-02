@@ -1,10 +1,12 @@
 import 'package:nimbus/App/App.dart';
 import 'package:nimbus/Controllers/NavigationController.dart';
 import 'package:nimbus/Controllers/OnboardingScreenController.dart';
-import 'package:nimbus/Controllers/SignInModalController.dart';
+import 'package:nimbus/Controllers/LoginScreenController.dart';
+import 'package:nimbus/Controllers/SignUpScreenController.dart';
 import 'package:nimbus/Controllers/impl/NavigationControllerImpl.dart';
 import 'package:nimbus/Controllers/impl/OnboardingScreenControllerImpl.dart';
-import 'package:nimbus/Controllers/impl/SignInModalControllerImpl.dart';
+import 'package:nimbus/Controllers/impl/LoginScreenControllerImpl.dart';
+import 'package:nimbus/Controllers/impl/SignUpScreenControllerImpl.dart';
 import 'package:nimbus/Providers/FbAuthProvider.dart';
 import 'package:nimbus/Providers/impl/FbAuthProviderImpl.dart';
 import 'package:nimbus/Services/AuthService.dart';
@@ -38,17 +40,30 @@ final MultiProvider providerHandler = MultiProvider(
       LogService,
       AuthService,
       NavigationController,
-      SignInModalController
+      LoginScreenController
     >(
       update:
           (context, logService, authService, navigationContoller, previous) =>
-              SignInModalControllerImpl(
+              LoginScreenControllerImpl(
                 logService: logService,
                 authService: authService,
                 navigationController: navigationContoller,
               ),
     ),
-
+    ProxyProvider3<
+      LogService,
+      AuthService,
+      NavigationController,
+      SignUpScreenController
+    >(
+      update:
+          (context, logService, authService, navigationContoller, previous) =>
+              SignUpScreenControllerImpl(
+                logService: logService,
+                authService: authService,
+                navigationController: navigationContoller,
+              ),
+    ),
     ProxyProvider<NavigationController, OnboardingScreenController>(
       update:
           (context, navigationController, previous) =>

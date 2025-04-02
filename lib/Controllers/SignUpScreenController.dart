@@ -1,11 +1,11 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
-abstract class SignInModalController {
+abstract class SignUpScreenController {
   TextEditingController get email;
   TextEditingController get password;
+  TextEditingController get confirmPassword;
   GlobalKey<FormState> get formKey;
 
   Future<void> signInPressed();
   Future<void> signUpPressed();
-  Future<void> forgotPasswordPressed();
 }
