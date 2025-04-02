@@ -9,6 +9,7 @@ import 'package:nimbus/Errors/NetworkRequestFailedException.dart';
 import 'package:nimbus/Errors/OperationNotAllowedException.dart';
 import 'package:nimbus/Errors/TooManyRequestsException.dart';
 import 'package:nimbus/Errors/UserDisabledException.dart';
+import 'package:nimbus/Errors/UserLogoutException.dart';
 import 'package:nimbus/Errors/UserNotFoundException.dart';
 import 'package:nimbus/Errors/UserTokenExpiredException.dart';
 import 'package:nimbus/Errors/WeakPasswordException.dart';
@@ -20,6 +21,15 @@ class AuthServiceImpl implements AuthService {
   AuthServiceImpl({required this.authProvider});
 
   FbAuthProvider authProvider;
+
+  @override
+  User get user {
+    try {
+      return authProvider.user!;
+    } catch (error) {
+      throw throw UserLogouException();
+    }
+  }
 
   @override
   Future<void> login({required String email, required String password}) async {

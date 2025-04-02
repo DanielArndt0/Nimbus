@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nimbus/App/AppColors.dart';
 
 class AppFormTextField extends StatelessWidget {
+  final void Function(String)? onChanged;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final String? hint;
@@ -26,12 +27,14 @@ class AppFormTextField extends StatelessWidget {
     this.haveCounter = false,
     this.isReadonly = false,
     this.isEnabled = true,
-    super.key,
+    this.onChanged,
+    super.key, 
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: onChanged,
       maxLines: 1,
       validator: validator,
       readOnly: isReadonly,

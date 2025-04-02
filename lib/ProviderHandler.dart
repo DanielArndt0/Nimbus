@@ -1,10 +1,12 @@
 import 'package:nimbus/App/App.dart';
 import 'package:nimbus/Controllers/AuthCodeScreenController.dart';
+import 'package:nimbus/Controllers/HomeScreenController.dart';
 import 'package:nimbus/Controllers/NavigationController.dart';
 import 'package:nimbus/Controllers/OnboardingScreenController.dart';
 import 'package:nimbus/Controllers/LoginScreenController.dart';
 import 'package:nimbus/Controllers/SignUpScreenController.dart';
 import 'package:nimbus/Controllers/impl/AuthCodeScreenControllerImpl.dart';
+import 'package:nimbus/Controllers/impl/HomeScreenControllerImpl.dart';
 import 'package:nimbus/Controllers/impl/NavigationControllerImpl.dart';
 import 'package:nimbus/Controllers/impl/OnboardingScreenControllerImpl.dart';
 import 'package:nimbus/Controllers/impl/LoginScreenControllerImpl.dart';
@@ -14,14 +16,20 @@ import 'package:nimbus/Providers/impl/FbAuthProviderImpl.dart';
 import 'package:nimbus/Services/AuthService.dart';
 import 'package:nimbus/Services/LogService.dart';
 import 'package:nimbus/Services/NavigationService.dart';
+import 'package:nimbus/Services/StorageService.dart';
 import 'package:nimbus/Services/impl/AuthServiceImpl.dart';
 import 'package:nimbus/Services/impl/LogServiceImpl.dart';
 import 'package:nimbus/Services/impl/NavigationServiceImpl.dart';
+import 'package:nimbus/Services/impl/StorageServiceImpl.dart';
 import 'package:provider/provider.dart';
 
 final MultiProvider providerHandler = MultiProvider(
   providers: [
     Provider<LogService>(create: (context) => LogServiceImpl.instance),
+    Provider<NavigationService>(
+      create: (context) => NavigationServiceImpl.instance,
+    ),
+    Provider<StorageService>(create: (context) => StorageServiceImpl.instance),
     ChangeNotifierProvider<FbAuthProvider>(
       create: (context) => FbAuthProviderImpl(),
     ),
@@ -29,9 +37,6 @@ final MultiProvider providerHandler = MultiProvider(
       update:
           (context, authProvider, previous) =>
               AuthServiceImpl(authProvider: authProvider),
-    ),
-    Provider<NavigationService>(
-      create: (context) => NavigationServiceImpl.instance,
     ),
     ProxyProvider<NavigationService, NavigationController>(
       update:
@@ -86,6 +91,28 @@ final MultiProvider providerHandler = MultiProvider(
                 authService: authService,
                 navigationController: navigationContoller,
               ),
+    ),
+    ProxyProvider4<
+      StorageService,
+      LogService,
+      AuthService,
+      NavigationController,
+      HomeScreenController
+    >(
+      update:
+          (
+            context,
+            storageService,
+            logService,
+            authService,
+            navigationContoller,
+            previous,
+          ) => HomeScreenControllerImpl(
+            storageService: storageService,
+            logService: logService,
+            authService: authService,
+            navigationController: navigationContoller,
+          ),
     ),
   ],
   child: const MyApp(),
