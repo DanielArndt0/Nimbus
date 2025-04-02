@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:nimbus/Services/NavigationService.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -39,6 +40,13 @@ class NavigationServiceImpl implements NavigationService {
   @override
   Future<void> pop() async {
     navigator.currentState?.pop();
+  }
+
+  @override
+  void showSnackbar({required String text}) {
+    ScaffoldMessenger.of(
+      navigator.currentContext!,
+    ).showSnackBar(SnackBar(content: Text(text)));
   }
 
   @override

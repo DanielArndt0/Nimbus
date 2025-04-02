@@ -48,21 +48,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Welcome to',
+                  'Welcome to Nimbus!',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 24,
                     fontWeight: FontWeight.w400,
                     color: AppColors.fontColor,
                   ),
                 ),
-                Text(
-                  'Nimbus',
-                  style: TextStyle(
-                    fontSize: 38,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.fontColor,
-                  ),
-                ),
+
                 Text(
                   'Your personal and secure cloud storage solution. Effortlessly upload, access, and manage your files from any device. With real-time sync and powerful sharing features, Nimbus keeps your digital life organized and always within reach.',
                   style: TextStyle(color: AppColors.subtext, fontSize: 13),
@@ -81,6 +74,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       child: BlueButton(
                         onPressed: () {
                           showModalBottomSheet(
+                            isScrollControlled: true,
+                            enableDrag: true,
                             isDismissible: true,
                             context: context,
                             builder:

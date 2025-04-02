@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nimbus/App/AppColors.dart';
 
 class AppFormTextField extends StatelessWidget {
   final TextEditingController? controller;
@@ -25,13 +26,12 @@ class AppFormTextField extends StatelessWidget {
     this.haveCounter = false,
     this.isReadonly = false,
     this.isEnabled = true,
-    super.key,  
+    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      
       validator: validator,
       readOnly: isReadonly,
       keyboardType: keyboardType,
@@ -48,8 +48,11 @@ class AppFormTextField extends StatelessWidget {
                 required maxLength,
               }) => Text('$currentLength'),
       decoration: InputDecoration(
+        prefixIconColor: AppColors.primary,
         hintText: hint,
+        hintStyle: TextStyle(color: AppColors.subtext),
         label: Text(label ?? ''),
+        labelStyle: TextStyle(color: AppColors.subtext),
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),

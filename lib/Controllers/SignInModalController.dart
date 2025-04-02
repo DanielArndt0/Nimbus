@@ -3,7 +3,9 @@ import 'package:flutter/widgets.dart';
 abstract class SignInModalController {
   TextEditingController get email;
   TextEditingController get password;
+  GlobalKey<FormState> get formKey;
 
-  Future<void> SignInPressed();
-  Future<void> SignUpPressed();
+  Future<void> signInPressed();
+  Future<void> signUpPressed();
+  Future<void> forgotPasswordPressed();
 }

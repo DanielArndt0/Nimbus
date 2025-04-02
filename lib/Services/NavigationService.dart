@@ -13,6 +13,7 @@ abstract class NavigationService {
   Future<void> popAndPushNamed<T>({required String route, T? object});
   Future<void> popAllAndPushNamed<T>({required String route, T? object});
   Future<void> pop();
+  void showSnackbar({required String text});
 
   BuildContext? get context;
 }

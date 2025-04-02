@@ -1,0 +1,97 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:nimbus/Errors/AuthException.dart';
+import 'package:nimbus/Errors/EmailAlreadyInUseException.dart';
+import 'package:nimbus/Errors/InvalidCredentialException.dart';
+import 'package:nimbus/Errors/InvalidEmailException.dart';
+import 'package:nimbus/Errors/NetworkRequestFailedException.dart';
+import 'package:nimbus/Errors/OperationNotAllowedException.dart';
+import 'package:nimbus/Errors/TooManyRequestsException.dart';
+import 'package:nimbus/Errors/UserDisabledException.dart';
+import 'package:nimbus/Errors/UserNotFoundException.dart';
+import 'package:nimbus/Errors/UserTokenExpiredException.dart';
+import 'package:nimbus/Errors/WeakPasswordException.dart';
+import 'package:nimbus/Errors/WrongPasswordException.dart';
+import 'package:nimbus/Providers/FbAuthProvider.dart';
+import 'package:nimbus/Services/AuthService.dart';
+
+class AuthServiceImpl implements AuthService {
+  AuthServiceImpl({required this.authProvider});
+
+  FbAuthProvider authProvider;
+
+  @override
+  Future<void> login({required String email, required String password}) async {
+    try {
+      await authProvider.auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'invalid-email') {
+        throw InvalidEmailException();
+      } else if (error.code == 'user-disabled') {
+        throw UserDisabledException();
+      } else if (error.code == 'user-not-found') {
+        throw UserNotFoundException();
+      } else if (error.code == 'wrong-password') {
+        throw WrongPasswordException();
+      } else if (error.code == 'operation-not-allowed') {
+        throw OperationNotAllowedException();
+      } else if (error.code == 'too-many-requests') {
+        throw TooManyRequestsException();
+      } else if (error.code == 'user-token-expired') {
+        throw UserTokenExpiredException();
+      } else if (error.code == 'network-request-failed') {
+        throw NetworkRequestFailedException();
+      } else if (error.code == 'invalid-credential' ||
+          error.code == 'INVALID_LOGIN_CREDENTIALS') {
+        throw InvalidCredentialException();
+      }
+      throw AuthException(
+        message: 'Auth exception error',
+        code: 'unknown-code',
+      );
+    } catch (error) {
+      throw AuthException(message: error.toString(), code: 'unknown-code');
+    }
+  }
+
+  @override
+  Future<void> signUp({required String email, required String password}) async {
+    try {
+      await authProvider.auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'invalid-email') {
+        throw InvalidEmailException();
+      } else if (error.code == 'email-already-in-use') {
+        throw EmailAlreadyInUseException();
+      } else if (error.code == 'weak-password') {
+        throw WeakPasswordException();
+      } else if (error.code == 'wrong-password') {
+        throw WrongPasswordException();
+      } else if (error.code == 'operation-not-allowed') {
+        throw OperationNotAllowedException();
+      } else if (error.code == 'too-many-requests') {
+        throw TooManyRequestsException();
+      } else if (error.code == 'user-token-expired') {
+        throw UserTokenExpiredException();
+      } else if (error.code == 'network-request-failed') {
+        throw NetworkRequestFailedException();
+      }
+      throw AuthException(
+        message: 'Auth exception error',
+        code: 'unknown-code',
+      );
+    } catch (error) {
+      throw AuthException(message: error.toString(), code: 'unknown-code');
+    }
+  }
+
+  @override
+  Future<void> signOut() async {
+    await authProvider.auth.signOut();
+  }
+}
