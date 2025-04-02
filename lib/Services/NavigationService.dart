@@ -5,6 +5,9 @@ abstract class NavigationService {
   GlobalKey<NavigatorState> get navigator;
   void set navigator(GlobalKey<NavigatorState> navigator);
 
+  GlobalKey<ScaffoldMessengerState> get scaffoldMessengerKey;
+  void set scaffoldMessengerKey(GlobalKey<ScaffoldMessengerState> navigator);
+
   Future<void> pushNamed<T>({
     required String route,
     PageTransitionType? transition,
@@ -13,6 +16,7 @@ abstract class NavigationService {
   Future<void> popAndPushNamed<T>({required String route, T? object});
   Future<void> popAllAndPushNamed<T>({required String route, T? object});
   Future<void> pop();
+  void showSnackbar({required String text});
 
   BuildContext? get context;
 }

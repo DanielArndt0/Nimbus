@@ -28,9 +28,21 @@ dependencies:
   # Provider
   provider: ^6.1.4
   
+  # Local DB
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # File system
+  path_provider: ^2.1.5
+  file_picker: ^10.0.0
+
   # Others
   pinput: ^5.0.1
   logger: ^2.5.0
+  google_fonts: ^6.2.1
+  fl_chart: ^0.70.2
+
+ 
 
 dev_dependencies:
   flutter_test:

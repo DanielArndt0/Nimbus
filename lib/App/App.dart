@@ -14,12 +14,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final NavigationService _navigationService;
   GlobalKey<NavigatorState> navigator = GlobalKey<NavigatorState>();
-
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
 
   @override
   void initState() {
     _navigationService = context.read<NavigationService>();
     _navigationService.navigator = navigator;
+    _navigationService.scaffoldMessengerKey = scaffoldMessengerKey;
     super.initState();
   }
 
@@ -31,6 +33,7 @@ class _MyAppState extends State<MyApp> {
       initialRoute: RouteHandler.initialRoute,
       routes: RouteHandler.routes,
       navigatorKey: navigator,
+      scaffoldMessengerKey: scaffoldMessengerKey,
     );
   }
 }

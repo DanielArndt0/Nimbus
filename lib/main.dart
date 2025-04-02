@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:nimbus/ProviderHandler.dart';
 import 'package:nimbus/firebase_options.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // await HiveConfig.start(); 
+  
   runApp(providerHandler);
 }

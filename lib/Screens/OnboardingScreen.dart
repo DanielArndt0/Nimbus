@@ -1,15 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:nimbus/App/AppColors.dart';
+import 'package:nimbus/Components/BlueButton.dart';
+import 'package:nimbus/Components/OrDivider.dart';
+import 'package:nimbus/Components/OutlinedButton.dart';
 import 'package:nimbus/Controllers/OnboardingScreenController.dart';
 import 'package:provider/provider.dart';
 
-class OnboardingScreen extends StatelessWidget {
+class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  late final OnboardingScreenController _controller;
+
+  @override
+  void initState() {
+    _controller = context.read<OnboardingScreenController>();
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    OnboardingScreenController _controller =
-        Provider.of<OnboardingScreenController>(context);
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,13 +46,14 @@ class OnboardingScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Welcome to',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                  'Welcome to Nimbus!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.fontColor,
+                  ),
                 ),
-                Text(
-                  'Nimbus',
-                  style: TextStyle(fontSize: 38, fontWeight: FontWeight.w900),
-                ),
+
                 Text(
                   'Your personal and secure cloud storage solution. Effortlessly upload, access, and manage your files from any device. With real-time sync and powerful sharing features, Nimbus keeps your digital life organized and always within reach.',
                   style: TextStyle(color: AppColors.subtext, fontSize: 13),
@@ -53,21 +69,23 @@ class OnboardingScreen extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: ElevatedButton(
-                        onPressed: _controller.signInButtonPressed,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryMaterial,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        child: Text(
-                          'Sign In ->',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      child: BlueButton(
+                        onPressed: _controller.signInPressed,
+                        label: 'Sign In',
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [OrDivider()],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppOutlinedButton(
+                        onPressed: _controller.signInWithPhone,
+                        label: 'Sign in with phone',
                       ),
                     ),
                   ],

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:nimbus/Services/NavigationService.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -8,6 +9,12 @@ class NavigationServiceImpl implements NavigationService {
 
   @override
   late GlobalKey<NavigatorState> navigator;
+
+  @override
+  late GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey;
+
+  @override
+  BuildContext? get context => navigator.currentContext;
 
   @override
   Future<void> pushNamed<T>({
@@ -42,5 +49,12 @@ class NavigationServiceImpl implements NavigationService {
   }
 
   @override
-  BuildContext? get context => navigator.currentContext;
+  void showSnackbar({required String text}) {
+    scaffoldMessengerKey.currentState!.showSnackBar(
+      SnackBar(content: Text(text)),
+    );
+    // ScaffoldMessenger.of(
+    //   navigator.currentContext!,
+    // ).showSnackBar(SnackBar(content: Text(text)));
+  }
 }
