@@ -43,7 +43,7 @@ class SignUpScreenControllerImpl implements SignUpScreenController {
     try {
       if (formKey.currentState!.validate()) {
         await authService.signUp(email: email.text, password: password.text);
-        navigationController.goToHome();
+        navigationController.goToAuth();
       }
     } on AuthException catch (error) {
       logService.error(message: error.message, error: error.code);

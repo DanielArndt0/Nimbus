@@ -38,4 +38,9 @@ class NavigationControllerImpl implements NavigationController {
   Future<void> goToHome() async {
     navigationService.popAllAndPushNamed(route: NamedRoutes.home);
   }
+
+  @override
+  Future<void> goToAuth() async {
+    navigationService.popAllAndPushNamed(route: NamedRoutes.auth);
+  }
 }

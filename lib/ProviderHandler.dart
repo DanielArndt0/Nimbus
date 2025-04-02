@@ -1,8 +1,10 @@
 import 'package:nimbus/App/App.dart';
+import 'package:nimbus/Controllers/AuthCodeScreenController.dart';
 import 'package:nimbus/Controllers/NavigationController.dart';
 import 'package:nimbus/Controllers/OnboardingScreenController.dart';
 import 'package:nimbus/Controllers/LoginScreenController.dart';
 import 'package:nimbus/Controllers/SignUpScreenController.dart';
+import 'package:nimbus/Controllers/impl/AuthCodeScreenControllerImpl.dart';
 import 'package:nimbus/Controllers/impl/NavigationControllerImpl.dart';
 import 'package:nimbus/Controllers/impl/OnboardingScreenControllerImpl.dart';
 import 'package:nimbus/Controllers/impl/LoginScreenControllerImpl.dart';
@@ -36,6 +38,13 @@ final MultiProvider providerHandler = MultiProvider(
           (context, navigationService, previous) =>
               NavigationControllerImpl(navigationService: navigationService),
     ),
+    ProxyProvider<NavigationController, OnboardingScreenController>(
+      update:
+          (context, navigationController, previous) =>
+              OnboardingScreenControllerImpl(
+                navigationController: navigationController,
+              ),
+    ),
     ProxyProvider3<
       LogService,
       AuthService,
@@ -64,11 +73,18 @@ final MultiProvider providerHandler = MultiProvider(
                 navigationController: navigationContoller,
               ),
     ),
-    ProxyProvider<NavigationController, OnboardingScreenController>(
+    ProxyProvider3<
+      LogService,
+      AuthService,
+      NavigationController,
+      AuthCodeScreenController
+    >(
       update:
-          (context, navigationController, previous) =>
-              OnboardingScreenControllerImpl(
-                navigationController: navigationController,
+          (context, logService, authService, navigationContoller, previous) =>
+              AuthCodeScreenControllerImpl(
+                logService: logService,
+                authService: authService,
+                navigationController: navigationContoller,
               ),
     ),
   ],

@@ -7,4 +7,5 @@ class NamedRoutes {
   static const storage = '${pre}storage';
   static const profile = '${pre}profile';
   static const settings = '${pre}settings';
+  static const auth = '${pre}auth';
 }

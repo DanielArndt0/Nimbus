@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nimbus/Errors/AuthException.dart';
 import 'package:nimbus/Errors/EmailAlreadyInUseException.dart';
+import 'package:nimbus/Errors/ExpiredActionCodeException.dart';
+import 'package:nimbus/Errors/InvalidActionCodeException.dart';
 import 'package:nimbus/Errors/InvalidCredentialException.dart';
 import 'package:nimbus/Errors/InvalidEmailException.dart';
 import 'package:nimbus/Errors/NetworkRequestFailedException.dart';
@@ -93,5 +95,58 @@ class AuthServiceImpl implements AuthService {
   @override
   Future<void> signOut() async {
     await authProvider.auth.signOut();
+  }
+
+  @override
+  Future<void> sendCodeToEmail() async {
+    try {
+      await authProvider.user!.sendEmailVerification();
+    } on FirebaseAuthException catch (error) {
+      throw AuthException(
+        message: error.message ?? 'Auth Exception',
+        code: error.code,
+      );
+    }
+  }
+
+  @override
+  Future<void> verifyCode({required String code}) async {
+    try {
+      await authProvider.auth.checkActionCode(code);
+      await authProvider.user?.reload();
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'expired-action-code') {
+        throw ExpiredActionCodeException();
+      } else if (error.code == 'invalid-action-code') {
+        throw InvalidActionCodeException();
+      } else if (error.code == 'user-disabled') {
+        throw UserDisabledException();
+      } else if (error.code == 'user-not-found') {
+        throw UserNotFoundException();
+      }
+      throw AuthException(
+        message: 'Auth exception error',
+        code: 'unknown-code',
+      );
+    } catch (error) {
+      throw AuthException(message: error.toString(), code: 'unknown-code');
+    }
+  }
+
+  @override
+  Future<void> signUpWithPhone({required String phone}) async {
+    // await authProvider.auth.verifyPhoneNumber(
+    //   verificationCompleted: (phoneAuthCredential) async {
+    //     await authProvider.auth.signInWithCredential(phoneAuthCredential);
+    //   },
+    //   verificationFailed: (error) {
+    //     throw AuthException(
+    //       message: error.message ?? 'Auth Exception',
+    //       code: error.code,
+    //     );
+    //   },
+    //   codeSent: (verificationId, forceResendingToken) {},
+    //   codeAutoRetrievalTimeout: (verificationId) {},
+    // );
   }
 }

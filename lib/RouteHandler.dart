@@ -1,4 +1,8 @@
+import 'package:nimbus/Middlewares/AutoLogin.dart';
+import 'package:nimbus/Middlewares/RequireAuth.dart';
+import 'package:nimbus/Middlewares/VerifyEmail.dart';
 import 'package:nimbus/NamedRoutes.dart';
+import 'package:nimbus/Screens/AuthCodeScreen.dart';
 import 'package:nimbus/Screens/HomeScreen.dart';
 import 'package:nimbus/Screens/LoginScreen.dart';
 import 'package:nimbus/Screens/OnboardingScreen.dart';
@@ -11,12 +15,23 @@ class RouteHandler {
   static const initialRoute = NamedRoutes.onboarding;
 
   static final routes = {
-    NamedRoutes.onboarding: (context) => OnboardingScreen(), // AutoLogin
-    NamedRoutes.login: (context) => LoginScreen(), // AutoLogin
-    NamedRoutes.register: (context) => SignUpScreen(), // AutoLogin
-    NamedRoutes.home: (context) => HomeScreen(), // RequireAuth
-    NamedRoutes.storage: (context) => StorageScreen(), // RequireAuth
-    NamedRoutes.profile: (context) => ProfileScreen(), // RequireAuth
-    NamedRoutes.settings: (context) => SettingsScreen(), // RequireAuth
+    NamedRoutes.onboarding:
+        (context) => AutoLogin(child: OnboardingScreen()), // AutoLogin
+    NamedRoutes.login:
+        (context) => AutoLogin(child: LoginScreen()), // AutoLogin
+    NamedRoutes.register:
+        (context) => AutoLogin(child: SignUpScreen()), // AutoLogin
+    NamedRoutes.home:
+        (context) => RequireAuth(child: HomeScreen()), // RequireAuth
+    NamedRoutes.storage:
+        (context) => RequireAuth(child: StorageScreen()), // RequireAuth
+    NamedRoutes.profile:
+        (context) => RequireAuth(child: ProfileScreen()), // RequireAuth
+    NamedRoutes.settings:
+        (context) => RequireAuth(child: SettingsScreen()), // RequireAuth
+    NamedRoutes.auth:
+        (context) => VerifyEmail(
+          child: RequireAuth(child: AuthCodeScreen()),
+        ), // RequireAuth
   };
 }
