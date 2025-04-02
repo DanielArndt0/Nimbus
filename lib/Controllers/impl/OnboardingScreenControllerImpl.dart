@@ -7,11 +7,6 @@ class OnboardingScreenControllerImpl implements OnboardingScreenController {
   late NavigationController navigationController;
 
   @override
-  Future<void> signInButtonPressed() async {
-    navigationController.goToLogin();
-  }
-
-  @override
   Future<void> signInWithFacebook() async {}
 
   @override

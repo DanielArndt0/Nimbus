@@ -1,15 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:nimbus/App/AppColors.dart';
+import 'package:nimbus/Components/BlueButton.dart';
 import 'package:nimbus/Controllers/OnboardingScreenController.dart';
+import 'package:nimbus/Controllers/SignInModalController.dart';
+import 'package:nimbus/Modals/SignInModal.dart';
 import 'package:provider/provider.dart';
 
-class OnboardingScreen extends StatelessWidget {
+class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  late final OnboardingScreenController _onboardingController;
+  late final SignInModalController _signInModalController;
+
+  @override
+  void initState() {
+    _onboardingController = context.read<OnboardingScreenController>();
+    _signInModalController = context.read<SignInModalController>();
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    OnboardingScreenController _controller =
-        Provider.of<OnboardingScreenController>(context);
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,11 +49,19 @@ class OnboardingScreen extends StatelessWidget {
               children: [
                 Text(
                   'Welcome to',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.fontColor,
+                  ),
                 ),
                 Text(
                   'Nimbus',
-                  style: TextStyle(fontSize: 38, fontWeight: FontWeight.w900),
+                  style: TextStyle(
+                    fontSize: 38,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.fontColor,
+                  ),
                 ),
                 Text(
                   'Your personal and secure cloud storage solution. Effortlessly upload, access, and manage your files from any device. With real-time sync and powerful sharing features, Nimbus keeps your digital life organized and always within reach.',
@@ -53,21 +78,18 @@ class OnboardingScreen extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: ElevatedButton(
-                        onPressed: _controller.signInButtonPressed,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryMaterial,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        child: Text(
-                          'Sign In ->',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      child: BlueButton(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            isDismissible: true,
+                            context: context,
+                            builder:
+                                (context) => SignInModal(
+                                  controller: _signInModalController,
+                                ),
+                          );
+                        },
+                        label: 'Sign In',
                       ),
                     ),
                   ],
@@ -86,11 +108,11 @@ class OnboardingScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     IconButton(
-                      onPressed: _controller.signInWithGoogle,
+                      onPressed: _onboardingController.signInWithGoogle,
                       icon: Image.asset('assets/images/instagram.png'),
                     ),
                     IconButton(
-                      onPressed: _controller.signInWithFacebook,
+                      onPressed: _onboardingController.signInWithFacebook,
                       icon: Image.asset('assets/images/facebook.png'),
                     ),
                   ],

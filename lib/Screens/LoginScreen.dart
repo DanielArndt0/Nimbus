@@ -5,6 +5,21 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'Welcome Back',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: Column(
+        children: [
+          Text(
+            'Please enter your login information below to access your account',
+          ),
+        ],
+      ),
+    );
   }
 }
