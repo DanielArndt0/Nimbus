@@ -23,7 +23,11 @@ class NavigationServiceImpl implements NavigationService {
     T? object,
   }) async {
     if (transition != null) {
-      context?.pushNamedTransition(routeName: route, type: transition);
+      context?.pushNamedTransition(
+        routeName: route,
+        type: transition,
+        arguments: object,
+      );
     } else {
       navigator.currentState?.pushNamed(route, arguments: object);
     }

@@ -14,12 +14,21 @@ class AuthPin extends StatelessWidget with FormValidator {
     return Pinput(
       onSubmitted: onSubmitted,
       onChanged: onChanged,
+      submittedPinTheme: PinTheme(
+        textStyle: TextStyle(color: AppColors.fontColor, fontSize: 20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: Colors.green[100],
+        ),
+        height: 40,
+        width: 40,
+      ),
       showCursor: false,
       pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
       controller: controller,
       validator: isNotEmpty,
       hapticFeedbackType: HapticFeedbackType.selectionClick,
-      length: 5,
+      length: 6,
       closeKeyboardWhenCompleted: true,
       autofocus: true,
       defaultPinTheme: PinTheme(
@@ -28,17 +37,26 @@ class AuthPin extends StatelessWidget with FormValidator {
           borderRadius: BorderRadius.circular(20),
           color: AppColors.primarySwatch[50],
         ),
-        height: 60,
-        width: 60,
+        height: 40,
+        width: 40,
       ),
       focusedPinTheme: PinTheme(
         textStyle: TextStyle(color: AppColors.fontColor, fontSize: 20),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(15),
           color: AppColors.primarySwatch[200],
         ),
-        height: 60,
-        width: 60,
+        height: 40,
+        width: 40,
+      ),
+      errorPinTheme: PinTheme(
+        textStyle: TextStyle(color: AppColors.fontColor, fontSize: 20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: Colors.red[100],
+        ),
+        height: 40,
+        width: 40,
       ),
     );
   }

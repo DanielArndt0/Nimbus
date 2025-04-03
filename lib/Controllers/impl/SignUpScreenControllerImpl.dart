@@ -36,7 +36,9 @@ class SignUpScreenControllerImpl implements SignUpScreenController {
   GlobalKey<FormState> get formKey => _formKey;
 
   @override
-  Future<void> signInPressed() async {}
+  Future<void> signInPressed() async {
+    navigationController.pop();
+  }
 
   @override
   Future<void> signUpPressed() async {

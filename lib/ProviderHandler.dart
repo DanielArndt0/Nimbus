@@ -1,13 +1,17 @@
 import 'package:nimbus/App/App.dart';
 import 'package:nimbus/Controllers/AuthCodeScreenController.dart';
 import 'package:nimbus/Controllers/HomeScreenController.dart';
+import 'package:nimbus/Controllers/LoginWithPhoneScreenController.dart';
 import 'package:nimbus/Controllers/NavigationController.dart';
+import 'package:nimbus/Controllers/OTPScreenController.dart';
 import 'package:nimbus/Controllers/OnboardingScreenController.dart';
 import 'package:nimbus/Controllers/LoginScreenController.dart';
 import 'package:nimbus/Controllers/SignUpScreenController.dart';
 import 'package:nimbus/Controllers/impl/AuthCodeScreenControllerImpl.dart';
 import 'package:nimbus/Controllers/impl/HomeScreenControllerImpl.dart';
+import 'package:nimbus/Controllers/impl/LoginWithPhoneScreenControllerImpl.dart';
 import 'package:nimbus/Controllers/impl/NavigationControllerImpl.dart';
+import 'package:nimbus/Controllers/impl/OTPScreenControllerImpl.dart';
 import 'package:nimbus/Controllers/impl/OnboardingScreenControllerImpl.dart';
 import 'package:nimbus/Controllers/impl/LoginScreenControllerImpl.dart';
 import 'package:nimbus/Controllers/impl/SignUpScreenControllerImpl.dart';
@@ -82,11 +86,39 @@ final MultiProvider providerHandler = MultiProvider(
       LogService,
       AuthService,
       NavigationController,
+      OTPScreenController
+    >(
+      update:
+          (context, logService, authService, navigationContoller, previous) =>
+              OTPScreenControllerImpl(
+                logService: logService,
+                authService: authService,
+                navigationController: navigationContoller,
+              ),
+    ),
+    ProxyProvider3<
+      LogService,
+      AuthService,
+      NavigationController,
       AuthCodeScreenController
     >(
       update:
           (context, logService, authService, navigationContoller, previous) =>
               AuthCodeScreenControllerImpl(
+                logService: logService,
+                authService: authService,
+                navigationController: navigationContoller,
+              ),
+    ),
+    ProxyProvider3<
+      LogService,
+      AuthService,
+      NavigationController,
+      LoginWithPhoneScreenController
+    >(
+      update:
+          (context, logService, authService, navigationContoller, previous) =>
+              LoginWithPhoneScreenControllerImpl(
                 logService: logService,
                 authService: authService,
                 navigationController: navigationContoller,

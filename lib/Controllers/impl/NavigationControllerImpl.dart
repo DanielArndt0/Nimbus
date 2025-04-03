@@ -51,4 +51,13 @@ class NavigationControllerImpl implements NavigationController {
       transition: PageTransitionType.rightToLeft,
     );
   }
+
+  @override
+  Future<void> goToOTP({required String phoneNumber}) async {
+    await navigationService.pushNamed<String>(
+      route: NamedRoutes.otp,
+      object: phoneNumber,
+      transition: PageTransitionType.rightToLeft,
+    );
+  }
 }

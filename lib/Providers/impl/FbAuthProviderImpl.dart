@@ -16,7 +16,7 @@ class FbAuthProviderImpl extends ChangeNotifier implements FbAuthProvider {
       notifyListeners();
 
       if (_user != null) {
-        if (!user!.emailVerified) {
+        if (!user!.emailVerified && user.phoneNumber == null) {
           _startEmailVerificationLoop();
         } else {
           _stopEmailVerificationLoop();
