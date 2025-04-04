@@ -27,7 +27,7 @@ class AuthServiceImpl implements AuthService {
     try {
       return authProvider.user!;
     } catch (error) {
-      throw throw UserLogouException();
+      throw throw UserLogoutException();
     }
   }
 

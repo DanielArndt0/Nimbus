@@ -3,21 +3,21 @@ import 'package:flutter/src/widgets/editable_text.dart';
 import 'package:flutter/src/widgets/form.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl_phone_field/phone_number.dart';
+import 'package:nimbus/Controllers/AuthController.dart';
 import 'package:nimbus/Controllers/LoginWithPhoneScreenController.dart';
 import 'package:nimbus/Controllers/NavigationController.dart';
-import 'package:nimbus/Services/AuthService.dart';
 import 'package:nimbus/Services/LogService.dart';
 
 class LoginWithPhoneScreenControllerImpl
     implements LoginWithPhoneScreenController {
   LoginWithPhoneScreenControllerImpl({
     required this.navigationController,
-    required this.authService,
+    required this.authController,
     required this.logService,
   });
 
   final NavigationController navigationController;
-  final AuthService authService;
+  final AuthController authController;
   final LogService logService;
 
   final _phone = TextEditingController();

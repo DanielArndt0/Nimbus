@@ -1,5 +1,5 @@
 mixin Format {
-  String formatBytes(int bytes, [int decimals = 2]) {
+  static String formatBytes(int bytes, [int decimals = 2]) {
     if (bytes < 0) return "0 B";
     const suffixes = ["B", "KB", "MB", "GB", "TB"];
     int i = 0;
@@ -13,7 +13,7 @@ mixin Format {
     return "${size.toStringAsFixed(decimals)} ${suffixes[i]}";
   }
 
-  String formatDate(DateTime date) {
+  static String formatDate(DateTime date) {
     const monthAbbr = [
       "jan",
       "fev",

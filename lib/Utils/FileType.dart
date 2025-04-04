@@ -79,6 +79,84 @@ class FileType {
     'text/tab-separated-values': Icons.table_chart,
   };
 
+  static final Map<String, MaterialColor> fileTypeColorMap = {
+    'application/pdf': Colors.red,
+    'application/msword': Colors.indigo,
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+        Colors.indigo,
+    'application/vnd.ms-excel': Colors.green,
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+        Colors.green,
+    'application/vnd.ms-powerpoint': Colors.orange,
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+        Colors.orange,
+    'application/rtf': Colors.grey,
+    'application/vnd.oasis.opendocument.text': Colors.indigo,
+    'application/vnd.oasis.opendocument.spreadsheet': Colors.green,
+    'application/epub+zip': Colors.deepPurple,
+
+    'text/plain': Colors.grey,
+    'application/json': Colors.teal,
+    'application/xml': Colors.deepOrange,
+    'application/x-yaml': Colors.brown,
+    'text/markdown': Colors.blueGrey,
+    'application/x-httpd-php': Colors.blue,
+    'text/x-python': Colors.blue,
+    'text/x-java-source': Colors.brown,
+    'text/x-c': Colors.blue,
+    'text/x-c++': Colors.blue,
+    'application/typescript': Colors.blue,
+    'text/jsx': Colors.blue,
+    'text/tsx': Colors.blue,
+    'application/javascript': Colors.yellow,
+
+    'image/jpeg': Colors.purple,
+    'image/png': Colors.purple,
+    'image/gif': Colors.purple,
+    'image/svg+xml': Colors.purple,
+    'image/webp': Colors.purple,
+
+    'audio/mpeg': Colors.pink,
+    'audio/wav': Colors.pink,
+    'audio/ogg': Colors.pink,
+    'audio/aac': Colors.pink,
+    'audio/midi': Colors.pink,
+    'audio/mp4': Colors.pink,
+
+    'video/mp4': Colors.blueGrey,
+    'video/webm': Colors.blueGrey,
+    'video/x-msvideo': Colors.blueGrey,
+    'video/quicktime': Colors.blueGrey,
+    'video/x-matroska': Colors.blueGrey,
+    'video/x-flv': Colors.blueGrey,
+    'video/3gpp': Colors.blueGrey,
+    'video/x-m4v': Colors.blueGrey,
+
+    'application/zip': Colors.brown,
+    'application/x-7z-compressed': Colors.brown,
+    'application/x-tar': Colors.brown,
+    'application/vnd.rar': Colors.brown,
+    'application/x-iso9660-image': Colors.brown,
+    'application/x-apple-diskimage': Colors.brown,
+
+    'font/ttf': Colors.deepPurple,
+    'font/otf': Colors.deepPurple,
+    'font/woff': Colors.deepPurple,
+    'font/woff2': Colors.deepPurple,
+
+    'application/x-pem-file': Colors.cyan,
+    'application/pkix-cert': Colors.cyan,
+    'application/x-pkcs12': Colors.cyan,
+    'application/pkcs10': Colors.cyan,
+
+    'application/octet-stream': Colors.grey,
+    'application/x-msdownload': Colors.grey,
+    'application/vnd.microsoft.portable-executable': Colors.grey,
+
+    'text/csv': Colors.lime,
+    'text/tab-separated-values': Colors.lime,
+  };
+
   static IconData? fileIcon({required String? fileType}) {
     if (fileType == null) return null;
 
@@ -97,5 +175,24 @@ class FileType {
       return Icons.description;
 
     return Icons.insert_drive_file;
+  }
+
+  static MaterialColor fileColor({required String? fileType}) {
+    if (fileType == null) return Colors.grey;
+
+    final MaterialColor? color = fileTypeColorMap[fileType];
+    if (color != null) return color;
+
+    if (fileType.contains('image')) return Colors.purple;
+    if (fileType.contains('audio')) return Colors.pink;
+    if (fileType.contains('video')) return Colors.blueGrey;
+    if (fileType.contains('text')) return Colors.grey;
+    if (fileType.contains('pdf')) return Colors.red;
+    if (fileType.contains('zip') || fileType.contains('compressed'))
+      return Colors.brown;
+    if (fileType.contains('msword') || fileType.contains('document'))
+      return Colors.indigo;
+
+    return Colors.grey;
   }
 }

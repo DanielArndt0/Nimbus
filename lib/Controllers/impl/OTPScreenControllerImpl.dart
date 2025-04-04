@@ -1,20 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:nimbus/Controllers/AuthController.dart';
 import 'package:nimbus/Controllers/NavigationController.dart';
 import 'package:nimbus/Controllers/OTPScreenController.dart';
 import 'package:nimbus/Errors/AuthException.dart';
-import 'package:nimbus/Services/AuthService.dart';
 import 'package:nimbus/Services/LogService.dart';
 
 class OTPScreenControllerImpl implements OTPScreenController {
   OTPScreenControllerImpl({
-    required this.authService,
+    required this.authController,
     required this.navigationController,
     required this.logService,
   });
 
-  final AuthService authService;
+  final AuthController authController;
   final NavigationController navigationController;
   final LogService logService;
 
@@ -38,7 +38,7 @@ class OTPScreenControllerImpl implements OTPScreenController {
   @override
   Future<void> sendCode({required String phoneNumber}) async {
     try {
-      await authService.sendSmsCode(
+      await authController.sendSmsCode(
         phone: phoneNumber,
         onCodeSent: (verificationId) => _verificationId = verificationId,
       );
@@ -71,7 +71,7 @@ class OTPScreenControllerImpl implements OTPScreenController {
     try {
       if (_verificationId.isNotEmpty) {
         if (pin.length >= 6) {
-          await authService.verifySmsCode(
+          await authController.verifySmsCode(
             code: pin,
             verificationId: _verificationId,
           );
