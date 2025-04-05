@@ -1,18 +1,16 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
+import 'package:nimbus/Models/FileCloudModel.dart';
+import 'package:nimbus/Models/FileLocalModel.dart';
 
 abstract class StorageService {
   Future<void> uploadFiles({
     required String userId,
-    required List<PlatformFile> files,
+    required ValueNotifier<List<FileLocalModel>> filesNotifier,
+    required Future<void> Function(FileCloudModel file) onUploadComplete,
   });
 
-  Future<int> getFileCount({required String userId, String? ref});
-
-  Future<List<Reference>> getFilesSimpleReferences({
-    required String userId,
-    String? ref,
-  });
+  Future<List<Reference>> getFiles({required String userId, String? ref});
 
   Future<FullMetadata> getMetadata({
     required String userId,

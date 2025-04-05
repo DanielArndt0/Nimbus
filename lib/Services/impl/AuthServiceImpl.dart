@@ -27,7 +27,7 @@ class AuthServiceImpl implements AuthService {
     try {
       return authProvider.user!;
     } catch (error) {
-      throw throw UserLogouException();
+      throw throw UserLogoutException();
     }
   }
 
@@ -144,20 +144,53 @@ class AuthServiceImpl implements AuthService {
   }
 
   @override
-  Future<void> signUpWithPhone({required String phone}) async {
-    await authProvider.auth.verifyPhoneNumber(
-      verificationCompleted: (phoneAuthCredential) async {
-        await authProvider.auth.signInWithCredential(phoneAuthCredential);
-      },
-      verificationFailed: (error) {
-        throw AuthException(
-          message: error.message ?? 'Auth Exception',
-          code: error.code,
-        );
-      },
-      codeSent: (verificationId, forceResendingToken) async {
-      },
-      codeAutoRetrievalTimeout: (verificationId) {},
-    );
+  Future<void> sendSmsCode({
+    required String phone,
+    required void Function(String verificationId) onCodeSent,
+  }) async {
+    try {
+      await authProvider.auth.verifyPhoneNumber(
+        phoneNumber: phone,
+        verificationCompleted: (phoneAuthCredential) {},
+        verificationFailed: (error) {
+          throw AuthException(
+            message: error.message ?? 'Auth Exception',
+            code: error.code,
+          );
+        },
+        codeSent: (verificationId, forceResendingToken) {
+          onCodeSent(verificationId);
+        },
+        codeAutoRetrievalTimeout: (verificationId) {},
+      );
+    } on FirebaseAuthException catch (error) {
+      throw AuthException(
+        message: error.message ?? error.toString(),
+        code: error.code,
+      );
+    } catch (error) {
+      throw AuthException(message: error.toString(), code: 'unknown-code');
+    }
+  }
+
+  @override
+  Future<void> verifySmsCode({
+    required String code,
+    required String verificationId,
+  }) async {
+    try {
+      final credential = PhoneAuthProvider.credential(
+        verificationId: verificationId,
+        smsCode: code,
+      );
+      await authProvider.auth.signInWithCredential(credential);
+    } on FirebaseAuthException catch (error) {
+      throw AuthException(
+        message: error.message ?? error.toString(),
+        code: error.code,
+      );
+    } catch (error) {
+      throw AuthException(message: error.toString(), code: 'unknown-code');
+    }
   }
 }

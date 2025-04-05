@@ -1,10 +1,10 @@
 import 'package:flutter/src/widgets/editable_text.dart';
 import 'package:flutter/src/widgets/form.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:nimbus/Controllers/AuthController.dart';
 import 'package:nimbus/Controllers/NavigationController.dart';
 import 'package:nimbus/Controllers/LoginScreenController.dart';
 import 'package:nimbus/Errors/AuthException.dart';
-import 'package:nimbus/Services/AuthService.dart';
 import 'package:nimbus/Services/LogService.dart';
 
 class LoginScreenControllerImpl implements LoginScreenController {
@@ -13,13 +13,13 @@ class LoginScreenControllerImpl implements LoginScreenController {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   LoginScreenControllerImpl({
-    required this.authService,
+    required this.authController,
     required this.logService,
     required this.navigationController,
   });
 
   final NavigationController navigationController;
-  final AuthService authService;
+  final AuthController authController;
   final LogService logService;
 
   @override
@@ -35,7 +35,7 @@ class LoginScreenControllerImpl implements LoginScreenController {
   Future<void> signInPressed() async {
     try {
       if (formKey.currentState!.validate()) {
-        await authService.login(email: email.text, password: password.text);
+        await authController.login(email: email.text, password: password.text);
       }
     } on AuthException catch (error) {
       logService.error(message: error.message, error: error.code);

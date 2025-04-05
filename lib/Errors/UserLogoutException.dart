@@ -1,9 +1,9 @@
 import 'package:nimbus/Errors/AuthException.dart';
 
 
-class UserLogouException extends AuthException {
-  UserLogouException({
-    super.message = 'The user has been logged out.',
+class UserLogoutException extends AuthException {
+  UserLogoutException({
+    super.message = 'Session expired. Please log in again.',
     super.code = 'user-logout',
   });
 }

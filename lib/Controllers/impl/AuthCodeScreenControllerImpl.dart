@@ -5,20 +5,20 @@ import 'package:flutter/src/widgets/editable_text.dart';
 import 'package:flutter/src/widgets/form.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:nimbus/Controllers/AuthCodeScreenController.dart';
+import 'package:nimbus/Controllers/AuthController.dart';
 import 'package:nimbus/Controllers/NavigationController.dart';
 import 'package:nimbus/Errors/AuthException.dart';
-import 'package:nimbus/Services/AuthService.dart';
 import 'package:nimbus/Services/LogService.dart';
 
 class AuthCodeScreenControllerImpl implements AuthCodeScreenController {
   AuthCodeScreenControllerImpl({
     required this.logService,
-    required this.authService,
+    required this.authController,
     required this.navigationController,
   });
 
   final LogService logService;
-  final AuthService authService;
+  final AuthController authController;
   final NavigationController navigationController;
 
   final TextEditingController _code = TextEditingController();
@@ -42,7 +42,7 @@ class AuthCodeScreenControllerImpl implements AuthCodeScreenController {
   @override
   Future<void> sendCodePressed() async {
     try {
-      await authService.sendCodeToEmail();
+      await authController.sendCodeToEmail();
       _startCountdown();
     } on AuthException catch (error) {
       logService.error(message: error.message, error: error.code);
@@ -56,7 +56,7 @@ class AuthCodeScreenControllerImpl implements AuthCodeScreenController {
   @override
   Future<void> verifyCodePressed(String code) async {
     try {
-      await authService.verifyCode(code: code);
+      await authController.verifyCode(code: code);
     } on AuthException catch (error) {
       logService.error(message: error.message, error: error.code);
       navigationController.showSnackbar(text: error.message);
@@ -73,7 +73,7 @@ class AuthCodeScreenControllerImpl implements AuthCodeScreenController {
 
   @override
   Future<void> exitPressed() async {
-    await authService.signOut();
+    await authController.signOut();
   }
 
   void _startCountdown() {

@@ -29,80 +29,90 @@ class _SignUpScreenState extends State<SignUpScreen> with FormValidator {
       appBar: AppBar(
         title: Text('Back', style: TextStyle(fontWeight: FontWeight.w300)),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.only(
-          top: 50,
+          top: 10,
           right: 40,
           left: 40,
           bottom: 50,
         ),
-        child: Column(
-          children: [
-            Text(
-              'Welcome Back',
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              'Please enter your login information below to access your account',
-              style: TextStyle(color: AppColors.subtext),
-            ),
-            const SizedBox(height: 20),
-            Form(
-              key: _controller.formKey,
-              child: Column(
-                children: [
-                  const SizedBox(height: 15),
-                  AppFormTextField(
-                    prefixIcon: Icon(Icons.email_outlined),
-                    label: 'Enter your email here',
-                    hint: 'example@email.com',
-                    controller: _controller.email,
-                    keyboardType: TextInputType.emailAddress,
-                    validator: isNotEmpty,
-                  ),
-                  const SizedBox(height: 15),
-                  AppFormTextField(
-                    prefixIcon: Icon(Icons.password_rounded),
-                    label: 'Enter your password here',
-                    hint: '••••••',
-                    controller: _controller.password,
-                    keyboardType: TextInputType.visiblePassword,
-                    isObscure: true,
-                    validator: isNotEmpty,
-                  ),
-                  const SizedBox(height: 15),
-                  AppFormTextField(
-                    prefixIcon: Icon(Icons.lock_outline_rounded),
-                    label: 'Confirm your password',
-                    hint: '••••••',
-                    controller: _controller.confirmPassword,
-                    keyboardType: TextInputType.visiblePassword,
-                    isObscure: true,
-                    validator: isNotEmpty,
-                  ),
-                ],
-              ),
-            ),
-            Spacer(),
-            Column(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight:
+                MediaQuery.of(context).size.height * .8 -
+                MediaQuery.of(context).padding.top -
+                AppBar().preferredSize.height,
+          ),
+          child: IntrinsicHeight(
+            child: Column(
               children: [
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Expanded(
-                      child: BlueButton(
-                        onPressed: _controller.signUpPressed,
-                        label: 'Sign Up',
-                      ),
-                    ),
-                  ],
+                Text(
+                  'Create your account',
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                SignInButton(onPressed: _controller.signInPressed),
+                Text(
+                  'Please enter your login information below to create your account',
+                  style: TextStyle(color: AppColors.subtext),
+                ),
+                const SizedBox(height: 20),
+                Form(
+                  key: _controller.formKey,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 15),
+                      AppFormTextField(
+                        prefixIcon: Icon(Icons.email_outlined),
+                        label: 'Enter your email here',
+                        hint: 'example@email.com',
+                        controller: _controller.email,
+                        keyboardType: TextInputType.emailAddress,
+                        validator: isNotEmpty,
+                      ),
+                      const SizedBox(height: 15),
+                      AppFormTextField(
+                        prefixIcon: Icon(Icons.password_rounded),
+                        label: 'Enter your password here',
+                        hint: '••••••',
+                        controller: _controller.password,
+                        keyboardType: TextInputType.visiblePassword,
+                        isObscure: true,
+                        validator: isNotEmpty,
+                      ),
+                      const SizedBox(height: 15),
+                      AppFormTextField(
+                        prefixIcon: Icon(Icons.lock_outline_rounded),
+                        label: 'Confirm your password',
+                        hint: '••••••',
+                        controller: _controller.confirmPassword,
+                        keyboardType: TextInputType.visiblePassword,
+                        isObscure: true,
+                        validator: isNotEmpty,
+                      ),
+                    ],
+                  ),
+                ),
+                Spacer(),
+                Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: BlueButton(
+                            onPressed: _controller.signUpPressed,
+                            label: 'Sign Up',
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    SignInButton(onPressed: _controller.signInPressed),
+                  ],
+                ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );

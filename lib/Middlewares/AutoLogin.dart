@@ -16,9 +16,9 @@ class AutoLogin extends StatelessWidget {
 
         if (user != null) {
           Future.microtask(() {
-            if (user.emailVerified) {
+            if (user.emailVerified || user.phoneNumber != null) {
               navigationService.popAllAndPushNamed(route: NamedRoutes.home);
-            } else {
+            } else if (!user.emailVerified || user.phoneNumber == null){
               navigationService.popAllAndPushNamed(route: NamedRoutes.auth);
             }
           });

@@ -9,4 +9,5 @@ class NamedRoutes {
   static const settings = '${pre}settings';
   static const auth = '${pre}auth';
   static const loginWithPhone = '${pre}phonelogin';
+  static const otp = '${pre}otp';
 }

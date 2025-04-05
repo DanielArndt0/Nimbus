@@ -10,16 +10,17 @@ class RequireAuth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final navigationService = Provider.of<NavigationService>(context);
-    final authProvider = Provider.of<FbAuthProvider>(context);
+    return Consumer2<NavigationService, FbAuthProvider>(
+      builder: (context, navigationService, authProvider, _) {
+        if (authProvider.user == null) {
+          Future.microtask(() async {
+            navigationService.popAllAndPushNamed(route: NamedRoutes.onboarding);
+          });
+          return Scaffold(body: Center(child: CircularProgressIndicator()));
+        }
 
-    if (authProvider.user == null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        navigationService.popAllAndPushNamed(route: NamedRoutes.onboarding);
-      });
-      return Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
-    return child;
+        return child;
+      },
+    );
   }
 }
