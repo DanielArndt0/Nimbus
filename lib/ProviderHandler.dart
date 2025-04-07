@@ -1,6 +1,7 @@
 import 'package:nimbus/App/App.dart';
 import 'package:nimbus/Controllers/AuthCodeScreenController.dart';
 import 'package:nimbus/Controllers/AuthController.dart';
+import 'package:nimbus/Controllers/FolderController.dart';
 import 'package:nimbus/Controllers/HomeScreenController.dart';
 import 'package:nimbus/Controllers/LoginWithPhoneScreenController.dart';
 import 'package:nimbus/Controllers/NavigationController.dart';
@@ -10,6 +11,7 @@ import 'package:nimbus/Controllers/LoginScreenController.dart';
 import 'package:nimbus/Controllers/SignUpScreenController.dart';
 import 'package:nimbus/Controllers/impl/AuthCodeScreenControllerImpl.dart';
 import 'package:nimbus/Controllers/impl/AuthControllerImpl.dart';
+import 'package:nimbus/Controllers/impl/FolderControllerImpl.dart';
 import 'package:nimbus/Controllers/impl/HomeScreenControllerImpl.dart';
 import 'package:nimbus/Controllers/impl/LoginWithPhoneScreenControllerImpl.dart';
 import 'package:nimbus/Controllers/impl/NavigationControllerImpl.dart';
@@ -67,6 +69,25 @@ final MultiProvider providerHandler = MultiProvider(
               OnboardingScreenControllerImpl(
                 navigationController: navigationController,
               ),
+    ),
+    ProxyProvider3<
+      DatabaseService,
+      AuthController,
+      NavigationController,
+      FolderController
+    >(
+      update:
+          (
+            context,
+            databaseService,
+            authController,
+            navigationContoller,
+            previous,
+          ) => FolderControllerImpl(
+            databaseService: databaseService,
+            authController: authController,
+            navigationController: navigationContoller,
+          ),
     ),
     ProxyProvider3<
       LogService,

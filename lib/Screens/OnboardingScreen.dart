@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nimbus/App/AppColors.dart';
 import 'package:nimbus/Components/BlueButton.dart';
 import 'package:nimbus/Components/OrDivider.dart';
-import 'package:nimbus/Components/OutlinedButton.dart';
+import 'package:nimbus/Components/AppOutlinedButton.dart';
 import 'package:nimbus/Controllers/OnboardingScreenController.dart';
 import 'package:provider/provider.dart';
 

@@ -3,6 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:nimbus/App/AppColors.dart';
 import 'package:nimbus/Components/AppFormTextField.dart';
+import 'package:nimbus/Components/BlueButton.dart';
+import 'package:nimbus/Components/FileCard.dart';
+import 'package:nimbus/Components/FolderCard.dart';
 import 'package:nimbus/Components/NavDrawer.dart';
 import 'package:nimbus/Components/SectionName.dart';
 import 'package:nimbus/Controllers/HomeScreenController.dart';
@@ -62,11 +65,78 @@ class _HomeScreenState extends State<HomeScreen> with Format {
                 hint: '.pdf',
               ),
               SizedBox(height: 20),
-              SectionName(name: 'Recent files'),
-              SizedBox(height: 20),
-              SectionName(name: 'My folders'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SectionName(name: 'Recent files'),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      'View all',
+                      style: TextStyle(color: AppColors.primary),
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(height: 10),
-              // MyFoldersSection(stream: _loadFilesStream, controller: _controller),
+              SizedBox(
+                height: 170,
+                child: ListView.separated(
+                  itemCount: 10,
+                  separatorBuilder: (context, index) => SizedBox(width: 10),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return FileCard(
+                      name: 'File ($index)',
+                      date: '15.07.2020',
+                      size: '134 KB',
+                      onPressed: () {},
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SectionName(name: 'My folders'),
+                  IconButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Center(child: Text('Create a new folder')),
+                            content: AppFormTextField(
+                              hint: 'Projects',
+                              label: 'Folder name',
+                            ),
+                            actionsAlignment: MainAxisAlignment.spaceBetween,
+                            actions: [
+                              TextButton(
+                                onPressed: () {},
+                                child: Text('Cancel'),
+                              ),
+                              BlueButton(onPressed: () {}, label: 'Create'),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    icon: Icon(Icons.add, color: AppColors.primary),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              ListView.separated(
+                separatorBuilder: (context, index) => SizedBox(height: 5),
+                itemCount: 7,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return FolderCard(name: 'Folder ($index)');
+                },
+              ),
             ],
           ),
         ),

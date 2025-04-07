@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:nimbus/FirestoreConsts.dart';
+import 'package:nimbus/Models/FolderModel.dart';
 import 'package:nimbus/Services/DatabaseService.dart';
 
 class DatabaseServiceImpl implements DatabaseService {
@@ -21,5 +22,21 @@ class DatabaseServiceImpl implements DatabaseService {
     await _firestore.collection(FirestoreConsts.users).doc(userId).update({
       'lastLogin': FieldValue.serverTimestamp(),
     });
+  }
+
+  @override
+  Future<void> createFolder({
+    required String userId,
+    required FolderModel folder,
+  }) async {
+    _firestore
+        .collection(FirestoreConsts.folders)
+        .doc(folder.id)
+        .set(folder.toJson());
+  }
+  
+  @override
+  DocumentReference getFolderRef() {
+    return _firestore.collection(FirestoreConsts.folders).doc();
   }
 }
