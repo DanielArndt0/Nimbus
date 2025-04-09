@@ -34,9 +34,34 @@ class DatabaseServiceImpl implements DatabaseService {
         .doc(folder.id)
         .set(folder.toJson());
   }
-  
+
   @override
   DocumentReference getFolderRef() {
     return _firestore.collection(FirestoreConsts.folders).doc();
+  }
+
+  @override
+  Future<void> deleteFolder({required FolderModel folder}) async {
+    await _firestore
+        .collection(FirestoreConsts.folders)
+        .doc(folder.id)
+        .delete();
+  }
+
+  @override
+  Stream<List<FolderModel>> listenFolders({
+    required String userId,
+    required String path,
+  }) {
+    return _firestore
+        .collection(FirestoreConsts.folders)
+        .where('userId', isEqualTo: userId)
+        .where('path', isEqualTo: path)
+        .snapshots()
+        .map((event) {
+          return event.docs.map((e) {
+            return FolderModel.fromJson(e.data());
+          }).toList();
+        });
   }
 }

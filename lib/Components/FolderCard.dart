@@ -4,12 +4,19 @@ import 'package:nimbus/App/AppColors.dart';
 class FolderCard extends StatelessWidget {
   final String name;
   final void Function()? onTap;
-  const FolderCard({super.key, required this.name, this.onTap});
+  final void Function()? onLongPress;
+  const FolderCard({
+    super.key,
+    required this.name,
+    this.onTap,
+    this.onLongPress,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      onLongPress: onLongPress,
       borderRadius: BorderRadius.circular(8),
       child: Ink(
         padding: EdgeInsets.all(10),

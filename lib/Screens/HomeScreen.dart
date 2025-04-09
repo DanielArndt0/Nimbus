@@ -1,14 +1,15 @@
 import 'dart:ui';
 
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:nimbus/App/AppColors.dart';
 import 'package:nimbus/Components/AppFormTextField.dart';
-import 'package:nimbus/Components/BlueButton.dart';
 import 'package:nimbus/Components/FileCard.dart';
-import 'package:nimbus/Components/FolderCard.dart';
 import 'package:nimbus/Components/NavDrawer.dart';
 import 'package:nimbus/Components/SectionName.dart';
 import 'package:nimbus/Controllers/HomeScreenController.dart';
+import 'package:nimbus/Modals/CreateFolderModal.dart';
+import 'package:nimbus/Models/FolderModel.dart';
 
 import 'package:nimbus/Utils/Format.dart';
 import 'package:provider/provider.dart';
@@ -22,10 +23,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with Format {
   late final HomeScreenController _controller;
+  late final Stream<List<FolderModel>> _streamGetFolders;
 
   @override
   void initState() {
     _controller = context.read<HomeScreenController>();
+    _streamGetFolders = _controller.getFolders();
     super.initState();
   }
 
@@ -68,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> with Format {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SectionName(name: 'Recent files'),
+                  SectionName(name: 'My files'),
                   TextButton(
                     onPressed: () {},
                     child: Text(
@@ -104,23 +107,9 @@ class _HomeScreenState extends State<HomeScreen> with Format {
                     onPressed: () {
                       showDialog(
                         context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Center(child: Text('Create a new folder')),
-                            content: AppFormTextField(
-                              hint: 'Projects',
-                              label: 'Folder name',
-                            ),
-                            actionsAlignment: MainAxisAlignment.spaceBetween,
-                            actions: [
-                              TextButton(
-                                onPressed: () {},
-                                child: Text('Cancel'),
-                              ),
-                              BlueButton(onPressed: () {}, label: 'Create'),
-                            ],
-                          );
-                        },
+                        builder:
+                            (context) =>
+                                CreateFolderModal(controller: _controller),
                       );
                     },
                     icon: Icon(Icons.add, color: AppColors.primary),
@@ -128,24 +117,29 @@ class _HomeScreenState extends State<HomeScreen> with Format {
                 ],
               ),
               SizedBox(height: 10),
-              ListView.separated(
-                separatorBuilder: (context, index) => SizedBox(height: 5),
-                itemCount: 7,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return FolderCard(name: 'Folder ($index)');
-                },
+              StreamBuilder<List<FolderModel>>(
+                stream: _streamGetFolders,
+                builder:
+                    (context, snapshot) => _controller.streamTreatment(
+                      context: context,
+                      snapshot: snapshot,
+                    ),
               ),
             ],
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        shape: CircleBorder(),
+
+      bottomNavigationBar: ConvexAppBar(
         backgroundColor: AppColors.primary,
-        onPressed: () {},
-        child: Icon(Icons.add, color: Colors.white),
+        initialActiveIndex: 2,
+        items: [
+          TabItem(icon: Icons.add, title: 'Add'),
+          TabItem(icon: Icons.pie_chart_rounded, title: 'Storage'),
+          TabItem(icon: Icons.home, title: 'Home'),
+          TabItem(icon: Icons.settings, title: 'Settings'),
+          TabItem(icon: Icons.people, title: 'Profile'),
+        ],
       ),
     );
   }

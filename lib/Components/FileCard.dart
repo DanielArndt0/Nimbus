@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nimbus/App/AppColors.dart';
+import 'package:nimbus/Components/BlueButton.dart';
 
 class FileCard extends StatelessWidget {
   final String name;
@@ -62,19 +63,7 @@ class FileCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                OutlinedButton(
-                  onPressed: onPressed,
-                  style: OutlinedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Text(
-                    'Open',
-
-                    style: TextStyle(color: AppColors.primaryMaterial),
-                  ),
-                ),
+                BlueButton(onPressed: onPressed, label: 'Download')
               ],
             ),
           ],

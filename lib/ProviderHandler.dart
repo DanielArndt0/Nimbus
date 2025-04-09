@@ -185,8 +185,9 @@ final MultiProvider providerHandler = MultiProvider(
           ),
     ),
 
-    ProxyProvider3<
+    ProxyProvider4<
       LogService,
+      FolderController,
       AuthController,
       NavigationController,
       HomeScreenController
@@ -195,11 +196,13 @@ final MultiProvider providerHandler = MultiProvider(
           (
             context,
             logService,
+            folderController,
             authController,
             navigationContoller,
             previous,
           ) => HomeScreenControllerImpl(
             logService: logService,
+            folderController: folderController,
             authController: authController,
             navigationController: navigationContoller,
           ),
